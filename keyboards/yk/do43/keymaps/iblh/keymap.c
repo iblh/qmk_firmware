@@ -17,6 +17,7 @@ enum custom_keycodes {
     GUI_QWERTY = SAFE_RANGE,
     GUI_SFT_Z,
     GUI_GRAVE,
+    PASSWORD,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -51,7 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [FN] = LAYOUT(
         KC_NO,      KC_F1,      KC_F2,        KC_F3,     KC_F4,    KC_F5,     KC_F6,      KC_F7,      KC_UP,      KC_F8,     KC_F9,      KC_F10,
         KC_NO,      KC_NO,      KC_NO,        KC_NO,     KC_RGHT,  KC_WFWD,   KC_PAST,    KC_LEFT,    KC_DOWN,    KC_RIGHT,  KC_DEL,
-        KC_LSFT,    GUI_SFT_Z,  KC_TRNS,      KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_0,       KC_1,       KC_2,       KC_3,      KC_PDOT,
+        KC_LSFT,    GUI_SFT_Z,  KC_TRNS,      KC_TRNS,   KC_TRNS,  KC_TRNS,   KC_0,       KC_1,       PASSWORD,   KC_3,      KC_PDOT,
         KC_LCTL,    KC_LALT,    KC_LGUI,      KC_SPC,    KC_TRNS,  MO(NUM),   MO(FN),     MO(FN),     QK_BOOT
     )
 };
@@ -92,6 +93,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code(KC_GRAVE);         // Tap 'Z'
             }
             return false; // We handled this keypress
+        // Password
+        case PASSWORD:
+            if (record->event.pressed) {
+                register_code(KC_LSFT);
+                tap_code(KC_S);
+                unregister_code(KC_LSFT);
+                tap_code(KC_M);
+                tap_code(KC_U);
+                tap_code(KC_J);
+                tap_code(KC_I);
+                tap_code(KC_N);
+                tap_code(KC_9);
+                tap_code(KC_7);
+                tap_code(KC_ENTER);
+            }
+            return false;  // 阻止默认处理
 
     }
 
