@@ -78,13 +78,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         case TOGGLE_LAYOUT:
             if (record->event.pressed) {
-                // 检查当前层并切换
-                if (layer_state_is(_DVORAK)) {
-                    layer_off(_DVORAK);
-                    layer_on(_QWERTY);
-                } else if (layer_state_is(_QWERTY)) {
-                    layer_off(_QWERTY);
-                    layer_on(_DVORAK);
+                // Get the current default layer state
+                uint8_t default_layer = get_highest_layer(default_layer_state);
+                if (default_layer == _DVORAK) {
+                    set_single_persistent_default_layer(_QWERTY);
+                } else if (default_layer == _QWERTY){
+                    set_single_persistent_default_layer(_DVORAK);
                 }
             }
             return false;
